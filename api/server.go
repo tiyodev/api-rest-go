@@ -2,32 +2,50 @@ package api
 
 import (
 	"fmt"
-	"github.com/tiyodev/api-rest-go/api/models"
+	"log"
 
+	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite" // test
 )
 
+type Server struct {
+	DB     *gorm.DB
+	Router *mux.Router
+}
+
 // Run test
-func Run() {
-	db, err := gorm.Open("sqlite3", "swapi.dat")
-	if err != nil {
-		panic("failed to connect database")
-	}
+func Run(addr string) {
 
-	var film Film
-	var peoples []People
+	// var film models.Film
 
-	db.Model(&film).Related(&peoples, "Characters")
-	db.Preload("Characters").First(&film)
+	// db.Preloads("Characters").Preloads("Vehicles").Preload("Planets").First(&film)
+
+	// fmt.Printf("film %+v\n", film)
+
+	// var planet models.Planet
+
+	// db.Preloads("Films").First(&planet)
+
+	// fmt.Printf("planet %+v\n", planet)
+
+	// var people models.People
+
+	// db.Preloads("Films").Preload("Starships").Preload("Species").Preload("Vehicles").Find(&people)
+
+	// fmt.Printf("people %+v\n", people)
+
+	// var film models.Film
+	// var peoples []models.People
+
+	// db.Model(&film).Related(&peoples, "Characters")
+	// db.Preload("Characters").First(&film)
 
 	// db.First(&film)
 	// db.Model(&film).Association("Characters").Find(&film.Characters)
 
-	fmt.Printf("film %+v\n", film)
-	fmt.Printf("film %+v\n", peoples)
-
-	db.Close()
+	// fmt.Printf("film %+v\n", film)
+	//fmt.Printf("peoples %+v\n", peoples)
 
 	// var films []Film
 	// db.Table("films").Find(&films)
@@ -49,7 +67,7 @@ func Run() {
 	// 	fmt.Println(err)
 	// }
 
-	defer db.Close()
+	// db.Close()
 
 	// r := mux.NewRouter()
 	// r.HandleFunc("/", HomeHandler)
@@ -60,4 +78,19 @@ func Run() {
 
 	// http.ListenAndServe(":8080", r)
 
+	// Start http server
+	var err error
+	var server = Server{}
+
+	server.DB, err := gorm.Open("sqlite3", "swapi.dat")
+	if err != nil {
+		fmt.Printf("Cannot connect to database")
+		log.Fatal("This is the error:", err)
+	}
+
+	server.Router = mux.NewRouter()
+
+	//server.initializeRoutes()
+
+	//server.Run(":8080")
 }

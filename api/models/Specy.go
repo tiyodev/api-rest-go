@@ -17,5 +17,5 @@ type Specy struct {
 	Created         string `json:"created"`
 	Edited          string `json:"edited"`
 	URL             int    `json:"url"`
-	ID              uint   `gorm:"primary_key" json:"id"`
+	ID              uint   `gorm:"primary_key"`
 }

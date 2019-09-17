@@ -12,9 +12,9 @@ type Planet struct {
 	SurfaceWater   int      `gorm:"column:surface_water" json:"surface_water"`
 	Population     int      `json:"population"`
 	Residents      []People `json:"residents"`
-	Films          []Film   `json:"films"`
+	Films          []Film   `gorm:"one2many:films_planets; foreignkey:ID" json:"films"`
 	Created        string   `json:"created"`
 	Edited         string   `json:"edited"`
 	URL            int      `json:"url"`
-	ID             uint     `gorm:"primary_key" json:"id"`
+	ID             uint     `gorm:"primary_key"`
 }
